@@ -1,10 +1,10 @@
-name: CI
+name: mac-arm64
 on:
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
-  build:
+  tmate:
     runs-on: macos-latest
     steps:
     - name: Setup tmate session
