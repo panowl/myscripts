@@ -1,0 +1,11 @@
+name: mac-arm64
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  tmate:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
