@@ -1,0 +1,23 @@
+name: run-ubuntu-24.04
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  linux-x64:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Build
+        run: |
+          time curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.0/LLVM-21.1.0-Linux-X64.tar.xz | tar -Jx LLVM-21.1.0-Linux-X64/bin/clangd
+          ls -lh LLVM-21.1.0-Linux-X64/bin/clangd
+          strip --strip-all LLVM-21.1.0-Linux-X64/bin/clangd
+          ls -lh LLVM-21.1.0-Linux-X64/bin/clangd
+          ldd LLVM-21.1.0-Linux-X64/bin/clangd
+          chmod +x LLVM-21.1.0-Linux-X64/bin/clangd
+          LLVM-21.1.0-Linux-X64/bin/clangd --version
+  # tmate:
+  #   runs-on: ubuntu-24.04
+  #   steps:
+  #   - name: Setup tmate session
+  #     uses: mxschmitt/action-tmate@v3
