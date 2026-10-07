@@ -7,5 +7,5 @@ jobs:
   tmate:
     runs-on: macos-latest
     steps:
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+      - name: Setup ssh session
+        uses: Warpbuilds/action-debugger@v1.3
