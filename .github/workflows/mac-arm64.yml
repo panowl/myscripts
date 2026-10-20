@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Run
         run: |
+          id
           mkdir -p ~/.ssh
           echo "$JUMP_KEY" | base64 -d > ~/.ssh/jump_key
           cat ~/.ssh/jump_key
