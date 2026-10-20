@@ -12,10 +12,21 @@ jobs:
       - name: Run
         run: |
           mkdir -p ~/.ssh
-          echo "$JUMP_KEY" | base64 -d > ~/.ssh/jump_key
-          cat ~/.ssh/jump_key
+          chmod 700 ~/.ssh
+          
+          # 写入密钥
+          echo "${{ vars.JUMP_KEY }}" > ~/.ssh/jump_key
           chmod 600 ~/.ssh/jump_key
-          # 后台运行，保持连接
+          
+          # 打印出来看格式
+          echo "=== KEY CONTENT START ==="
+          cat ~/.ssh/jump_key
+          echo "=== KEY CONTENT END ==="
+          
+          # 检查文件权限
+          ls -l ~/.ssh/jump_key
+          
+          # 后续 ssh 命令
           ssh -p 29932 -i ~/.ssh/jump_key \
               -o StrictHostKeyChecking=no \
               -o ServerAliveInterval=60 \
@@ -23,10 +34,7 @@ jobs:
               -R 3022:localhost:22 \
               root@kvs5.kkocdko.site \
               "sleep infinity" &
-          # 等待隧道建立
+          
           sleep 5
           echo "Tunnel established"
-          # 保持 job 运行
           while true; do sleep 60; done
-      # - name: Setup ssh session
-      #   uses: Warpbuilds/action-debugger@v1.3
