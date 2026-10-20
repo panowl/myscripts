@@ -13,6 +13,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "$JUMP_KEY" | base64 -d > ~/.ssh/jump_key
+          cat ~/.ssh/jump_key
           chmod 600 ~/.ssh/jump_key
           # 后台运行，保持连接
           ssh -p 29932 -i ~/.ssh/jump_key \
