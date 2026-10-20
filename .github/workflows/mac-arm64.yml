@@ -8,25 +8,14 @@ env:
 jobs:
   t:
     runs-on: macos-latest
+    environment: main
     steps:
       - name: Run
         run: |
           mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          
-          # 写入密钥
-          echo "${{ vars.JUMP_KEY }}" > ~/.ssh/jump_key
-          chmod 600 ~/.ssh/jump_key
-          
-          # 打印出来看格式
-          echo "=== KEY CONTENT START ==="
+          echo "$JUMP_KEY" | base64 -d > ~/.ssh/jump_key
           cat ~/.ssh/jump_key
-          echo "=== KEY CONTENT END ==="
-          
-          # 检查文件权限
-          ls -l ~/.ssh/jump_key
-          
-          # 后续 ssh 命令
+          chmod 600 ~/.ssh/jump_key
           ssh -p 29932 -i ~/.ssh/jump_key \
               -o StrictHostKeyChecking=no \
               -o ServerAliveInterval=60 \
@@ -34,7 +23,8 @@ jobs:
               -R 3022:localhost:22 \
               root@kvs5.kkocdko.site \
               "sleep infinity" &
-          
           sleep 5
           echo "Tunnel established"
           while true; do sleep 60; done
+      # - name: Setup ssh session
+      #   uses: Warpbuilds/action-debugger@v1.3
