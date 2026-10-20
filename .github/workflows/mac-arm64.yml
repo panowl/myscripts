@@ -5,7 +5,7 @@ permissions:
   contents: write
 jobs:
   shell:
-    runs-on: warp-macos-26-arm64-6x # macos-26 # warp-macos-26-arm64-6x
+    runs-on: macos-26 # macos-26 # warp-macos-26-arm64-6x
     environment: main
     steps:
       - name: Run
@@ -18,7 +18,7 @@ jobs:
           echo "$JUMP_KEY" | base64 -d > ~/.ssh/jump_key
           chmod 600 ~/.ssh/authorized_keys ~/.ssh/jump_key
           ssh \
-            -p 29932
+            -p 29932 \
             -i ~/.ssh/jump_key \
             -o StrictHostKeyChecking=no \
             -o ServerAliveInterval=60 \
